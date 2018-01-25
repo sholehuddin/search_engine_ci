@@ -10,7 +10,7 @@ class Main extends CI_Controller {
         parent::__construct();
         if(!$this->session->userdata('username')) {
         	$this->session->set_userdata('urlredirect', uri_string());
-			//redirect('auth');
+			redirect('auth');
 		}
     }
 
