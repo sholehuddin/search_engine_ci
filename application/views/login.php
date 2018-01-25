@@ -30,10 +30,10 @@
 <!-- Automatic element centering -->
 <div class="lockscreen-wrapper">
   <div class="lockscreen-logo">
-    <a href="<?=base_url('assets/index2.html')?>"><b>Admin</b>LTE</a>
+    <a href="<?=base_url('assets/index2.html')?>"><b>Pusintek</b>GO</a>
   </div>
   <!-- User name -->
-  <div class="lockscreen-name">John Doe</div>
+  <div class="lockscreen-name"><?=(@$user_name)?$user_name:'Input Username'?></div>
 
   <!-- START LOCK SCREEN ITEM -->
   <div class="lockscreen-item">
@@ -44,27 +44,50 @@
     <!-- /.lockscreen-image -->
 
     <!-- lockscreen credentials (contains the form) -->
-    <form class="lockscreen-credentials">
+    <?= form_open((@$user_name)?'auth/cek_pass':'auth','class="lockscreen-credentials"') ?>
       <div class="input-group">
-        <input type="password" class="form-control" placeholder="password">
+        <?php
+          if (@$user_name) {
+            echo form_hidden('username',$user_name);
+            $atr = array(
+              'name' => 'password',
+              'class' => 'form-control',
+              'placeholder' => 'Password',
+              'value' => set_value('Password'),
+              'required' => TRUE,
+            );
+            echo form_password($atr);
+            echo form_error('password', '<span class="help-block">', '</span>');
+          } else {
+            $atr = array(
+              'name' => 'username',
+              'class' => 'form-control',
+              'placeholder' => 'User Name',
+              'value' => set_value('username'),
+              'required' => TRUE,
+            );
+            echo form_input($atr);
+            echo form_error('username', '<span class="help-block">', '</span>');
+          }
+        ?>
 
         <div class="input-group-btn">
           <button type="button" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
         </div>
       </div>
-    </form>
+    <?= form_close(); ?>
     <!-- /.lockscreen credentials -->
 
   </div>
   <!-- /.lockscreen-item -->
   <div class="help-block text-center">
-    Enter your password to retrieve your session
+    <?=(@$user_name)?'Enter your password to retrieve your session':'Enter your username to retrieve your session'?>
   </div>
-  <div class="text-center">
+  <!-- <div class="text-center">
     <a href="login.html">Or sign in as a different user</a>
-  </div>
+  </div> -->
   <div class="lockscreen-footer text-center">
-    Copyright &copy; 2014-2016 <b><a href="https://adminlte.io" class="text-black">Almsaeed Studio</a></b><br>
+    Copyright &copy; <?=date('Y')?> <b><a href="https://www.kemenkeu.go.id" class="text-black">PUSINTEK Kemenkeu</a></b><br>
     All rights reserved
   </div>
 </div>

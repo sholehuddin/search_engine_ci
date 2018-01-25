@@ -6,13 +6,15 @@ class Mauth extends CI_Model
         parent::__construct();
     }
 
+    function cek_user(){
+		$username = strtolower($this->input->post('username'));
+		if (stripos($username, '@kemenkeu.go.id')) $username = substr($username, 0, -15);
+		if ($username == 'muhammad.ayyubi') return TRUE;
+    }
+
 	function authlogin(){
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-
-		$username = strtolower($username);
-		if (stripos($username, '@kemenkeu.go.id')) $username = substr($username, 0, -15);
-
 		//For localhost outside office
 		if ($username == 'muhammad.ayyubi' && $password == 'jupiter.bappenas') {
 			$sessionData['id'] 			= '1';
@@ -28,7 +30,7 @@ class Mauth extends CI_Model
 
 			$urlRedirect = $this->session->userdata('urlredirect');
 
-			$this->setLog($username);
+			//$this->setLog($username);
 			return TRUE;
 		} else return FALSE;
 		//End
