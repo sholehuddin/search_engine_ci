@@ -17,7 +17,7 @@ class Templates extends CI_Model
 
     function bottom_template($template){
 		$this->load->view('templates/footer/footer'); //footer notes
-		if($this->session->userdata('privilage') == 'sa') $this->load->view('templates/config/config');
+		//if($this->session->userdata('privilage') == 'sa') $this->load->view('templates/config/config');
 		$this->load->view('templates/footer/js1'); //js footer and first css
 		$this->load->view('templates/footer/js_'.$template); //spesific js
     }

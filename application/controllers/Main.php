@@ -25,7 +25,7 @@ class Main extends CI_Controller {
 		$data['menu_dash'] = 'active';
 
 		//Breadcrumb
-		$data['utama'] = 'Dashboard';
+		$data['utama'] = 'Beranda';
 		$data['url_utama'] = base_url();
 		$data['icon_utama'] = 'fa fa-dashboard';
 		//$data['child1'] = 'Dashboard';
@@ -34,7 +34,7 @@ class Main extends CI_Controller {
 		//Load Template
 		$this->load->model('Templates');
 		$this->Templates->top_template($data,$template);
-		$this->load->view('blank');
+		$this->load->view('main');
 		$this->Templates->bottom_template($template);
 	}
 }
