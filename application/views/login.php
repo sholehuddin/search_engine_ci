@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +33,7 @@
     <a href="<?=base_url('assets/index2.html')?>"><b>Pusintek</b>GO</a>
   </div>
   <!-- User name -->
-  <div class="lockscreen-name"><?=(@$user_name)?$user_name:'Input Username'?></div>
+  <div class="lockscreen-name"><?=(@$user_name) ? $user_name : 'Input Username'?></div>
 
   <!-- START LOCK SCREEN ITEM -->
   <div class="lockscreen-item">
@@ -44,44 +44,44 @@
     <!-- /.lockscreen-image -->
 
     <!-- lockscreen credentials (contains the form) -->
-    <?= form_open((@$user_name)?'auth/cek_pass':'auth','class="lockscreen-credentials"') ?>
+    <?=form_open((@$user_name) ? 'auth/cek_pass' : 'auth', 'class="lockscreen-credentials"')?>
       <div class="input-group">
         <?php
-          if (@$user_name) {
-            echo form_hidden('username',$user_name);
-            $atr = array(
-              'name' => 'password',
-              'class' => 'form-control',
-              'placeholder' => 'Password',
-              'value' => set_value('Password'),
-              'required' => TRUE,
-            );
-            echo form_password($atr);
-            echo form_error('password', '<span class="help-block">', '</span>');
-          } else {
-            $atr = array(
-              'name' => 'username',
-              'class' => 'form-control',
-              'placeholder' => 'User Name',
-              'value' => set_value('username'),
-              'required' => TRUE,
-            );
-            echo form_input($atr);
-            echo form_error('username', '<span class="help-block">', '</span>');
-          }
-        ?>
+if (@$user_name) {
+	echo form_hidden('username', $user_name);
+	$atr = array(
+		'name' => 'password',
+		'class' => 'form-control',
+		'placeholder' => 'Password',
+		'value' => set_value('Password'),
+		'required' => TRUE,
+	);
+	echo form_password($atr);
+	echo form_error('password', '<span class="help-block">', '</span>');
+} else {
+	$atr = array(
+		'name' => 'username',
+		'class' => 'form-control',
+		'placeholder' => 'User Name',
+		'value' => set_value('username'),
+		'required' => TRUE,
+	);
+	echo form_input($atr);
+	echo form_error('username', '<span class="help-block">', '</span>');
+}
+?>
 
         <div class="input-group-btn">
           <button type="button" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
         </div>
       </div>
-    <?= form_close(); ?>
+    <?=form_close();?>
     <!-- /.lockscreen credentials -->
 
   </div>
   <!-- /.lockscreen-item -->
   <div class="help-block text-center">
-    <?=(@$user_name)?'Enter your password to retrieve your session':'Enter your username to retrieve your session'?>
+    <?=(@$user_name) ? 'Enter your password to retrieve your session' : 'Enter your username to retrieve your session'?>
   </div>
   <!-- <div class="text-center">
     <a href="login.html">Or sign in as a different user</a>

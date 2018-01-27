@@ -5,9 +5,9 @@
 /**
  * User Model
  */
-class UserModel extends CI_Model {
+class Muser extends CI_Model {
 	public $table = 'user';
-	public $nik, $name, $state, $role;
+	public $nik, $name, $state, $role, $username;
 
 	function __construct($argument = []) {
 		parent::__construct();
@@ -17,6 +17,7 @@ class UserModel extends CI_Model {
 			$this->name = $argument['name'];
 			$this->state = $argument['state'];
 			$this->role = $argument['role'];
+			$this->username = $argument['username'];
 		}
 	}
 
@@ -26,6 +27,10 @@ class UserModel extends CI_Model {
 
 	function is_active() {
 		return $this->state == 1;
+	}
+
+	function is_logged_in() {
+		return isset($this->username);
 	}
 }
 
