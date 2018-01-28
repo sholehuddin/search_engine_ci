@@ -6,10 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Kenjis\\CodeIgniter_Cli\\_Config\\' => array($vendorDir . '/kenjis/codeigniter-cli/config'),
     'Kenjis\\CodeIgniter_Cli\\' => array($vendorDir . '/kenjis/codeigniter-cli/src'),
+    'GuzzleHttp\\Stream\\' => array($vendorDir . '/guzzlehttp/streams/src'),
+    'GuzzleHttp\\Ring\\' => array($vendorDir . '/guzzlehttp/ringphp/src'),
+    'Elasticsearch\\' => array($vendorDir . '/elasticsearch/elasticsearch/src/Elasticsearch'),
     'Aura\\Project_Kernel\\_Config\\' => array($vendorDir . '/aura/project-kernel/config'),
     'Aura\\Project_Kernel\\' => array($vendorDir . '/aura/project-kernel/src'),
     'Aura\\Dispatcher\\' => array($vendorDir . '/aura/dispatcher/src'),

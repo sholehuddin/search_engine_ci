@@ -2,5 +2,5 @@
 	exit('No direct script access allowed');
 }
 
-$config['es_server'] = "http://localhost:"+getenv('ELASTIC_SEARCH_PORT');
+$config['es_server'] = "www.local.host:9200";
 $config['index'] = '';

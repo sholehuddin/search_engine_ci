@@ -6,14 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitb42050bcc35da783ce83cf3e0f993609
 {
+    public static $files = array (
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
+    );
+
     public static $firstCharsPsr4 = array (
+        'R' => true,
         'P' => true,
         'M' => true,
         'K' => true,
+        'G' => true,
+        'E' => true,
         'A' => true,
     );
 
     public static $prefixDirsPsr4 = array (
+        'React\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/promise/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -29,6 +40,18 @@ class ComposerStaticInitb42050bcc35da783ce83cf3e0f993609
         'Kenjis\\CodeIgniter_Cli\\' => 
         array (
             0 => __DIR__ . '/..' . '/kenjis/codeigniter-cli/src',
+        ),
+        'GuzzleHttp\\Stream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/streams/src',
+        ),
+        'GuzzleHttp\\Ring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/ringphp/src',
+        ),
+        'Elasticsearch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/Elasticsearch',
         ),
         'Aura\\Project_Kernel\\_Config\\' => 
         array (

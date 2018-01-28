@@ -6,17 +6,17 @@
  *
  */
 class ElasticSearch {
-	public $index;
+	public $index, $ch;
 
 	/**
 	 * constructor setting the config variables for server ip and index.
 	 */
 
-	public function __construct() {
+	public function __construct($index) {
 		$ci = &get_instance();
 		$ci->config->load("elasticsearch");
-		$this->server = $ci->config->item('es_server');
-		$this->index = $ci->config->item('index');
+		$this->server = 'www.local.host:9200';
+		$this->index = $index;
 	}
 	/**
 	 * Handling the call for every function with curl
@@ -29,42 +29,34 @@ class ElasticSearch {
 	 * @throws Exception
 	 */
 
-	private function call($path, $method = 'GET', $data = null) {
+	private function call($path, $method = 'GET', $data = null, $opt = []) {
 		if (!$this->index) {
 			throw new Exception('$this->index needs a value');
 		}
-
 		$url = $this->server . '/' . $this->index . '/' . $path;
+		if (is_array($data)) {
+			$data = json_encode($data);
+		}
 
-		$headers = array('Accept: application/json', 'Content-Type: application/json');
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$this->ch = $this->prepare_curl($url);
 
 		switch ($method) {
 		case 'GET':
 			break;
 		case 'POST':
-			curl_setopt($ch, CURLOPT_POST, true);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			curl_setopt($this->ch, CURLOPT_POST, true);
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data);
 			break;
 		case 'PUT':
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+			curl_setopt($this->ch, CURLOPT_POSTFIELDS, $data);
 			break;
 		case 'DELETE':
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+			curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 			break;
 		}
 
-		$response = curl_exec($ch);
-		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		return json_decode($response, true);
+		return json_decode($this->do_request(), true);
 	}
 
 	/**
@@ -252,6 +244,49 @@ class ElasticSearch {
 	 */
 	public function suggest($query) {
 		return $this->call('_suggest', 'POST', $query);
+	}
+
+	public function bulk_reindex($type, $data) {
+		$data_request = [];
+		var_dump($data);
+		$url = $this->server . '/' . $this->index;
+		$this->ch = $this->prepare_curl($url);
+		curl_setopt($this->ch, CURLOPT_POST, true);
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($data));
+		return json_encode($this->do_request());
+	}
+
+	public function create_index($type) {
+		$url = $this->server . '/' . $this->index;
+		$this->ch = $this->prepare_curl($url);
+		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+		return json_encode($this->do_request());
+	}
+
+	public function delete_index($type) {
+		$url = $this->server . '/' . $this->index;
+		$this->ch = $this->prepare_curl($url);
+		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+		return json_encode($this->do_request());
+	}
+
+	function prepare_curl($url) {
+
+		$headers = array('Accept: application/json', 'Content-Type: application/json');
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		return $ch;
+	}
+
+	function do_request() {
+		$response = curl_exec($this->ch);
+		$code = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+		return $response;
 	}
 
 }

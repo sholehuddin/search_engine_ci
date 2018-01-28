@@ -6,12 +6,12 @@
  * User Model
  */
 class Muser extends CI_Model {
-	public $table = 'user';
+	public $table = 'users';
 	public $nik, $name, $state, $role, $username;
 
 	function __construct($argument = []) {
 		parent::__construct();
-		$this->load->library('Elasticsearch');
+		$this->load->library('Elasticsearch', [$this->table]);
 		if (count($argument) > 0) {
 			$this->nik = $argument['nik'];
 			$this->name = $argument['name'];
