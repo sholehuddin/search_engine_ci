@@ -1,38 +1,45 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) {
+	exit('No direct script access allowed');
+}
 
-class Mauth extends CI_Model 
-{    
-    function __construct() {
-        parent::__construct();
-    }
+class Mauth extends CI_Model {
+	function __construct() {
+		parent::__construct();
+	}
 
-    function cek_user(){
+	function cek_user() {
 		$username = strtolower($this->input->post('username'));
-		if (stripos($username, '@kemenkeu.go.id')) $username = substr($username, 0, -15);
-		if ($username == 'muhammad.ayyubi') return TRUE;
-    }
+		if (stripos($username, '@kemenkeu.go.id')) {
+			$username = substr($username, 0, -15);
+		}
 
-	function authlogin(){
+		if ($username == 'muhammad.ayyubi') {
+			return TRUE;
+		}
+
+	}
+
+	function authlogin() {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		//For localhost outside office
 		if ($username == 'muhammad.ayyubi' && $password == 'jupiter.bappenas') {
-			$sessionData['id'] 			= '1';
-			$sessionData['username'] 	= $username;
-			$sessionData['nama'] 		= 'Sholeh';
-			$sessionData['kode'] 		= '0';
-			$sessionData['privilage'] 	= 'sa';
-			$sessionData['eselon'] 		= '0';
-			$sessionData['jabatan']		= 'Administrator';
-			//Set Session Data
-			$sessionData['tahun'] = $this->input->post('tahun');
+			$sessionData['user'] = array('id' => '1',
+				'username' => $username,
+				'name' => 'Sholeh',
+				'state' => '0',
+				'role' => '1',
+				'nik' => '123');
+
 			$this->session->set_userdata($sessionData);
 
 			$urlRedirect = $this->session->userdata('urlredirect');
 
-			//$this->setLog($username);
 			return TRUE;
-		} else return FALSE;
+		} else {
+			return FALSE;
+		}
+
 		//End
 		// $this->load->model('Auth/Ldap');
 		// $auth = $this->Ldap->login($username,$password);
@@ -54,15 +61,15 @@ class Mauth extends CI_Model
 	}
 
 	//Set Session
-	function set_session($data){
+	function set_session($data) {
 		foreach ($data as $row) {
-			$sessionData['id'] 			= $row->id;
-			$sessionData['username'] 	= $row->username;
-			$sessionData['nama'] 		= $row->nama;
-			$sessionData['kode'] 		= $row->kode;
-			$sessionData['privilage'] 	= $row->privilage;
-			$sessionData['eselon'] 		= $row->eselon;
-			$sessionData['jabatan']		= $row->jabatan;
+			$sessionData['id'] = $row->id;
+			$sessionData['username'] = $row->username;
+			$sessionData['nama'] = $row->nama;
+			$sessionData['kode'] = $row->kode;
+			$sessionData['privilage'] = $row->privilage;
+			$sessionData['eselon'] = $row->eselon;
+			$sessionData['jabatan'] = $row->jabatan;
 		}
 
 		return $sessionData;
